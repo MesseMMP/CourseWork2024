@@ -4,10 +4,12 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import pandas as pd
 import os
+from time import sleep
 
 browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 url = 'https://tabiturient.ru/globalrating/'
 browser.get(url)
+sleep(1)
 soup = BeautifulSoup(browser.page_source, 'lxml')
 table = soup.find('div', class_='obramtop100')
 rows = table.find_all('table', class_='listtop100')
@@ -23,8 +25,12 @@ for row in rows:
 
 column_names = ['Rating', 'Name', 'Grade', 'Category']
 df = pd.DataFrame(info, columns=column_names)
-df.head()
+print(df.info)
 # Создаем папку Data, если она не существует
 if not os.path.exists("Data"):
     os.makedirs("Data")
-df.to_excel(f'Data/Tabiturient.xlsx', index=False)
+if not os.path.exists("Data/Russia"):
+    os.makedirs("Data/Russia")
+df.to_excel(f'Data/Russia/Tabiturient.xlsx', index=False)
+
+browser.close()
