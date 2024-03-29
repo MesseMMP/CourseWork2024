@@ -11,7 +11,7 @@ def parse_world():
     elif site == "3":
         subprocess.run(["python", "World/CWUR.py"])
     elif site == "4":
-        subprocess.run(["python", "World/Shanghai_Ranking_ARWU.py"])
+        subprocess.run(["python", "World/Shanghai_Ranking.py"])
     elif site == "5":
         subprocess.run(["python", "World/Round_University_Ranking.py"])
     else:
