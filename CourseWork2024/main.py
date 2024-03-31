@@ -29,6 +29,8 @@ def parse_africa():
         subprocess.run(["python", "Africa/EduRank.py"])
     elif site == "4":
         subprocess.run(["python", "Africa/US_News.py"])
+    elif site == "5":
+        subprocess.run(["python", "Africa/Shanghai_Ranking.py"])
     else:
         print("Неверный выбор сайта.")
 
@@ -39,10 +41,16 @@ def parse_arabic():
     if site == "1":
         subprocess.run(["python", "Arabic/The_Higher_Education.py"])
     elif site == "2":
-        subprocess.run(["python", "Arabic/EduRank.py"])
+        subprocess.run(["python", "Arabic/UniRanks.py"])
     elif site == "3":
-        subprocess.run(["python", "Arabic/US_News.py"])
+        subprocess.run(["python", "Arabic/EduRank.py"])
     elif site == "4":
+        subprocess.run(["python", "Arabic/US_News.py"])
+    elif site == "5":
+        subprocess.run(["python", "Arabic/Research_com.py"])
+    elif site == "6":
+        subprocess.run(["python", "Arabic/SCIMAGO_Institutions_Rankings.py"])
+    elif site == "7":
         subprocess.run(["python", "Arabic/Shanghai_Ranking.py"])
     else:
         print("Неверный выбор сайта.")

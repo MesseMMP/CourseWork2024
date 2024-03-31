@@ -8,7 +8,7 @@ import os
 import re
 
 browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-url = 'https://edurank.org/geo/ru/'
+url = 'https://edurank.org/geo/ae/'
 browser.get(url)
 
 soup = BeautifulSoup(browser.page_source, 'lxml')
@@ -22,14 +22,14 @@ for row in rows:
     ranks = [x.text.strip().split()[0][1:] for x in row.find_all('div', class_='uni-card__rank')]
     info.append([name, city, *ranks])
 
-column_names = ['Название', 'Город', 'Рейтинг в Европе','Рейтинг в мире']
+column_names = ['Name', 'City', 'Asia Rank', 'World Rank']
 df = pd.DataFrame(info, columns=column_names)
 print(df.info)
 
 if not os.path.exists("Data"):
     os.makedirs("Data")
-if not os.path.exists("Data/Russia"):
-    os.makedirs("Data/Russia")
-df.to_excel(f'Data/Russia/EduRank.xlsx', index=False)
+if not os.path.exists("Data/Arabic"):
+    os.makedirs("Data/Arabic")
+df.to_excel(f'Data/Arabic/EduRank.xlsx', index=False)
 
 browser.close()

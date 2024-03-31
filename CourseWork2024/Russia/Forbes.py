@@ -39,3 +39,5 @@ if not os.path.exists("Data"):
 if not os.path.exists("Data/Russia"):
     os.makedirs("Data/Russia")
 df.to_excel(f'Data/Russia/Forbes.xlsx', index=False)
+
+browser.close()

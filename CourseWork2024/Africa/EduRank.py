@@ -8,7 +8,7 @@ import os
 import re
 
 browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-url = 'https://edurank.org/geo/ru/'
+url = 'https://edurank.org/geo/af/'
 browser.get(url)
 
 soup = BeautifulSoup(browser.page_source, 'lxml')
@@ -18,18 +18,20 @@ info = []
 for row in rows:
     name = row.find('h2').text.strip()
     name = re.search(r'\d+\.\s(.+)', name).group(1)
-    city = row.find('div', class_='uni-card__geo text-center').text.strip()
+    country_city = row.find('div', class_='uni-card__geo text-center').text.strip()
+    country = country_city.split(' | ')[0]
+    city = country_city.split(' | ')[1]
     ranks = [x.text.strip().split()[0][1:] for x in row.find_all('div', class_='uni-card__rank')]
-    info.append([name, city, *ranks])
+    info.append([name, country, city, *ranks])
 
-column_names = ['Название', 'Город', 'Рейтинг в Европе','Рейтинг в мире']
+column_names = ['Name', 'Country', 'City', 'National rank', 'World rank']
 df = pd.DataFrame(info, columns=column_names)
 print(df.info)
 
 if not os.path.exists("Data"):
     os.makedirs("Data")
-if not os.path.exists("Data/Russia"):
-    os.makedirs("Data/Russia")
-df.to_excel(f'Data/Russia/EduRank.xlsx', index=False)
+if not os.path.exists("Data/Africa"):
+    os.makedirs("Data/Africa")
+df.to_excel(f'Data/Africa/EduRank.xlsx', index=False)
 
 browser.close()
