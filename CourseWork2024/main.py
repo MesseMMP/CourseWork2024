@@ -128,8 +128,8 @@ def parse_region():
 
 
 def download_pdfs():
-    # subprocess.run(["python", "download_pdf.py"])
-    print("PDF собраны.")
+    subprocess.run(["python", "pdf_downloader.py"])
+    print('PDF отчеты собраны!')
 
 
 def main():
