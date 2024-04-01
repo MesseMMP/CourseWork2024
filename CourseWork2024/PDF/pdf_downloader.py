@@ -16,7 +16,7 @@ def download_pdf_reports(driver, institute_name, report_url, keywords):
         if report_url:
             driver.get(report_url)
             pdf_links = driver.find_elements(By.TAG_NAME, 'a')
-            institute_folder = os.path.join(output_folder, institute_name)
+            institute_folder = os.path.join(data_folder, institute_name)
 
             if len(pdf_links) > 0:
                 if not os.path.exists(institute_folder):
@@ -40,12 +40,12 @@ def download_pdf_reports(driver, institute_name, report_url, keywords):
 
 
 # Чтение данных из файла links.xlsx
-df = pd.read_excel('links.xlsx')
-
-# Создание папки для сохранения PDF-отчетов
-output_folder = 'PDF_reports'
-if not os.path.exists(output_folder):
-    os.makedirs(output_folder)
+current_script_path = os.path.abspath(__file__)
+current_script_directory = os.path.dirname(current_script_path)
+df = pd.read_excel(os.path.join(current_script_directory, 'links.xlsx'))
+data_folder = os.path.join(os.path.dirname(__file__), '..', 'PDF_reports')
+if not os.path.exists(data_folder):
+    os.makedirs(data_folder)
 
 # Запрос ключевых слов у пользователя
 keywords_str = input("Введите ключевые слова через запятую: ")

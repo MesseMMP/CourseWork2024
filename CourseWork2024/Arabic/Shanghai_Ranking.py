@@ -115,11 +115,22 @@ for year in [2023, 2022, 2021, 2020, 2019]:
                     'N&S', 'PUB', 'PCP']
     df = pd.DataFrame(overall_information, columns=column_names)
     print(df.info)
-    if not os.path.exists("Data"):
-        os.makedirs("Data")
-    if not os.path.exists("Data/Arabic"):
-        os.makedirs("Data/Arabic")
+    data_folder = os.path.join(os.path.dirname(__file__), '..', 'Data')
 
-    df.to_excel(f'Data/Arabic/Shanghai_Ranking_{str(year)}.xlsx', index=False)
+    # Проверка существования папки Data и ее создание, если она не существует
+    if not os.path.exists(data_folder):
+        os.makedirs(data_folder)
+
+    # Путь к папке Russia внутри папки Data
+    arabic_folder = os.path.join(data_folder, 'Arabic')
+
+    # Проверка существования папки Arabic внутри папки Data и ее создание, если она не существует
+    if not os.path.exists(arabic_folder):
+        os.makedirs(arabic_folder)
+
+    file_path = os.path.join(arabic_folder, f'Shanghai_Ranking_{str(year)}.xlsx')
+
+    # Сохранение DataFrame в файл
+    df.to_excel(file_path, index=False)
 
 browser.close()

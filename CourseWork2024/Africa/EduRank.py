@@ -28,10 +28,13 @@ column_names = ['Name', 'Country', 'City', 'National rank', 'World rank']
 df = pd.DataFrame(info, columns=column_names)
 print(df.info)
 
-if not os.path.exists("Data"):
-    os.makedirs("Data")
-if not os.path.exists("Data/Africa"):
-    os.makedirs("Data/Africa")
-df.to_excel(f'Data/Africa/EduRank.xlsx', index=False)
+data_folder = os.path.join(os.path.dirname(__file__), '..', 'Data')
+if not os.path.exists(data_folder):
+    os.makedirs(data_folder)
+arabic_folder = os.path.join(data_folder, 'Africa')
+if not os.path.exists(arabic_folder):
+    os.makedirs(arabic_folder)
+file_path = os.path.join(arabic_folder, 'EduRank.xlsx')
+df.to_excel(file_path, index=False)
 
 browser.close()

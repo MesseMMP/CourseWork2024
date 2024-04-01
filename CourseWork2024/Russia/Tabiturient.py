@@ -26,11 +26,14 @@ for row in rows:
 column_names = ['Rating', 'Name', 'Grade', 'Category']
 df = pd.DataFrame(info, columns=column_names)
 print(df.info)
-# Создаем папку Data, если она не существует
-if not os.path.exists("Data"):
-    os.makedirs("Data")
-if not os.path.exists("Data/Russia"):
-    os.makedirs("Data/Russia")
-df.to_excel(f'Data/Russia/Tabiturient.xlsx', index=False)
+
+data_folder = os.path.join(os.path.dirname(__file__), '..', 'Data')
+if not os.path.exists(data_folder):
+    os.makedirs(data_folder)
+russia_folder = os.path.join(data_folder, 'Russia')
+if not os.path.exists(russia_folder):
+    os.makedirs(russia_folder)
+file_path = os.path.join(russia_folder, 'Tabiturient.xlsx')
+df.to_excel(file_path, index=False)
 
 browser.close()

@@ -1,19 +1,33 @@
 import subprocess
+import os
+
+
+def get_correct_path(folder, name):
+    # Получаем абсолютный путь к текущему скрипту
+    current_script_path = os.path.abspath(__file__)
+
+    # Путь к папке, содержащей текущий скрипт
+    current_script_directory = os.path.dirname(current_script_path)
+
+    # Путь к скрипту относительно main.py
+    script_path = os.path.join(current_script_directory, folder, name)
+
+    return script_path
 
 
 def parse_world():
     site = input()
 
     if site == "1":
-        subprocess.run(["python", "World/The_Higher_Education.py"])
+        subprocess.run(["python", get_correct_path('World', 'The_Higher_Education.py')])
     elif site == "2":
-        subprocess.run(["python", "World/QS_World_University_Rankings.py"])
+        subprocess.run(["python", get_correct_path('World', 'QS_World_University_Rankings.py')])
     elif site == "3":
-        subprocess.run(["python", "World/CWUR.py"])
+        subprocess.run(["python", get_correct_path('World', 'CWUR.py')])
     elif site == "4":
-        subprocess.run(["python", "World/Shanghai_Ranking.py"])
+        subprocess.run(["python", get_correct_path('World', 'Shanghai_Ranking.py')])
     elif site == "5":
-        subprocess.run(["python", "World/Round_University_Ranking.py"])
+        subprocess.run(["python", get_correct_path('World', 'Round_University_Ranking.py')])
     else:
         print("Неверный выбор сайта.")
 
@@ -22,15 +36,15 @@ def parse_africa():
     site = input()
 
     if site == "1":
-        subprocess.run(["python", "Africa/The_Higher_Education.py"])
+        subprocess.run(["python", get_correct_path('Africa', 'The_Higher_Education.py')])
     elif site == "2":
-        subprocess.run(["python", "Africa/SCIMAGO_Institutions_Rankings.py"])
+        subprocess.run(["python", get_correct_path('Africa', 'SCIMAGO_Institutions_Rankings.py')])
     elif site == "3":
-        subprocess.run(["python", "Africa/EduRank.py"])
+        subprocess.run(["python", get_correct_path('Africa', 'EduRank.py')])
     elif site == "4":
-        subprocess.run(["python", "Africa/US_News.py"])
+        subprocess.run(["python", get_correct_path('Africa', 'US_News.py')])
     elif site == "5":
-        subprocess.run(["python", "Africa/Shanghai_Ranking.py"])
+        subprocess.run(["python", get_correct_path('Africa', 'Shanghai_Ranking.py')])
     else:
         print("Неверный выбор сайта.")
 
@@ -39,19 +53,19 @@ def parse_arabic():
     site = input()
 
     if site == "1":
-        subprocess.run(["python", "Arabic/The_Higher_Education.py"])
+        subprocess.run(["python", get_correct_path('Arabic', 'The_Higher_Education.py')])
     elif site == "2":
-        subprocess.run(["python", "Arabic/UniRanks.py"])
+        subprocess.run(["python", get_correct_path('Arabic', 'UniRanks.py')])
     elif site == "3":
-        subprocess.run(["python", "Arabic/EduRank.py"])
+        subprocess.run(["python", get_correct_path('Arabic', 'EduRank.py')])
     elif site == "4":
-        subprocess.run(["python", "Arabic/US_News.py"])
+        subprocess.run(["python", get_correct_path('Arabic', 'US_News.py')])
     elif site == "5":
-        subprocess.run(["python", "Arabic/Research_com.py"])
+        subprocess.run(["python", get_correct_path('Arabic', 'Research_com.py')])
     elif site == "6":
-        subprocess.run(["python", "Arabic/SCIMAGO_Institutions_Rankings.py"])
+        subprocess.run(["python", get_correct_path('Arabic', 'SCIMAGO_Institutions_Rankings.py')])
     elif site == "7":
-        subprocess.run(["python", "Arabic/Shanghai_Ranking.py"])
+        subprocess.run(["python", get_correct_path('Arabic', 'Shanghai_Ranking.py')])
     else:
         print("Неверный выбор сайта.")
 
@@ -60,17 +74,17 @@ def parse_russia():
     site = input()
 
     if site == "1":
-        subprocess.run(["python", "Russia/RAEX.py"])
+        subprocess.run(["python", get_correct_path('Russia', 'RAEX.py')])
     elif site == "2":
-        subprocess.run(["python", "Russia/Interfax.py"])
+        subprocess.run(["python", get_correct_path('Russia', 'Interfax.py')])
     elif site == "3":
-        subprocess.run(["python", "Russia/Tabiturient.py"])
+        subprocess.run(["python", get_correct_path('Russia', 'Tabiturient.py')])
     elif site == "4":
-        subprocess.run(["python", "Russia/EduRank.py"])
+        subprocess.run(["python", get_correct_path('Russia', 'EduRank.py')])
     elif site == "5":
-        subprocess.run(["python", "Russia/Forbes.py"])
+        subprocess.run(["python", get_correct_path('Russia', 'Forbes.py')])
     elif site == "6":
-        subprocess.run(["python", "Russia/Shanghai_Ranking.py"])
+        subprocess.run(["python", get_correct_path('Russia', 'Shanghai_Ranking.py')])
     else:
         print("Неверный выбор сайта.")
 
@@ -88,19 +102,19 @@ def parse_site(region):
 
     if region == "world":
         for number, site in enumerate(world_sites):
-            print(f'{number+1}. {site}')
+            print(f'{number + 1}. {site}')
         parse_world()
     elif region == "africa":
         for number, site in enumerate(africa_sites):
-            print(f'{number+1}. {site}')
+            print(f'{number + 1}. {site}')
         parse_africa()
     elif region == "arabic":
         for number, site in enumerate(arabic_sites):
-            print(f'{number+1}. {site}')
+            print(f'{number + 1}. {site}')
         parse_arabic()
     elif region == "russia":
         for number, site in enumerate(russian_sites):
-            print(f'{number+1}. {site}')
+            print(f'{number + 1}. {site}')
         parse_russia()
     else:
         print("Такого региона нет!")
@@ -128,7 +142,7 @@ def parse_region():
 
 
 def download_pdfs():
-    subprocess.run(["python", "pdf_downloader.py"])
+    subprocess.run(["python", get_correct_path('PDF', 'pdf_downloader.py')])
     print('PDF отчеты собраны!')
 
 

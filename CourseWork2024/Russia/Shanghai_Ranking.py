@@ -74,10 +74,13 @@ for year in [2023, 2022, 2021, 2020, 2019]:
                     'PUB', 'PCP']
     df = pd.DataFrame(info, columns=column_names)
     print(df.info)
-    if not os.path.exists("Data"):
-        os.makedirs("Data")
-    if not os.path.exists("Data/Russia"):
-        os.makedirs("Data/Russia")
-    df.to_excel(f'Data/Russia/Shanghai_Ranking_{str(year)}.xlsx', index=False)
+    data_folder = os.path.join(os.path.dirname(__file__), '..', 'Data')
+    if not os.path.exists(data_folder):
+        os.makedirs(data_folder)
+    russia_folder = os.path.join(data_folder, 'Russia')
+    if not os.path.exists(russia_folder):
+        os.makedirs(russia_folder)
+    file_path = os.path.join(russia_folder, f'Shanghai_Ranking_{str(year)}.xlsx')
+    df.to_excel(file_path, index=False)
 
 browser.close()

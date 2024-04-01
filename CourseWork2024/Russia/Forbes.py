@@ -34,10 +34,26 @@ column_names = ['Название', 'Востребованность выпус
                 'Международная репутация', 'Качество преподавания', 'Фактор Forbes', 'Итог']
 df = pd.DataFrame(info, columns=column_names)
 print(df.info)
-if not os.path.exists("Data"):
-    os.makedirs("Data")
-if not os.path.exists("Data/Russia"):
-    os.makedirs("Data/Russia")
-df.to_excel(f'Data/Russia/Forbes.xlsx', index=False)
+
+# Путь к папке Data
+data_folder = os.path.join(os.path.dirname(__file__), '..', 'Data')
+
+# Проверка существования папки Data и ее создание, если она не существует
+if not os.path.exists(data_folder):
+    os.makedirs(data_folder)
+
+# Путь к папке Russia внутри папки Data
+russia_folder = os.path.join(data_folder, 'Russia')
+
+# Проверка существования папки Russia внутри папки Data и ее создание, если она не существует
+if not os.path.exists(russia_folder):
+    os.makedirs(russia_folder)
+
+# Путь к файлу Forbes.xlsx в папке Russia
+file_path = os.path.join(russia_folder, 'Forbes.xlsx')
+
+# Сохранение DataFrame в файл
+df.to_excel(file_path, index=False)
+
 
 browser.close()

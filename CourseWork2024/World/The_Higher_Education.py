@@ -74,10 +74,13 @@ for year in [2023, 2022, 2021, 2020, 2019]:
                     sleep(0.5)  # Пауза в пол секунды и повторяем нажатие
     df = pd.DataFrame(info, columns=columns)
     print(df.info)
-    if not os.path.exists("Data"):
-        os.makedirs("Data")
-    if not os.path.exists("Data/World"):
-        os.makedirs("Data/World")
-    df.to_excel(f'Data/World/The_Higher_Education_{year}.xlsx', index=False)
+    data_folder = os.path.join(os.path.dirname(__file__), '..', 'Data')
+    if not os.path.exists(data_folder):
+        os.makedirs(data_folder)
+    arabic_folder = os.path.join(data_folder, 'World')
+    if not os.path.exists(arabic_folder):
+        os.makedirs(arabic_folder)
+    file_path = os.path.join(arabic_folder, f'The_Higher_Education_{year}.xlsx')
+    df.to_excel(file_path, index=False)
 
 browser.close()
