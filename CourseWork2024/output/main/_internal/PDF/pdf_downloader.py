@@ -1,13 +1,29 @@
+from plistlib import InvalidFileException
+
+from selenium.common import NoSuchElementException, ElementClickInterceptedException, ElementNotInteractableException, \
+    TimeoutException
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
-from bs4 import BeautifulSoup
 import pandas as pd
-import os
 import requests
-from urllib.parse import urlparse
 import os
+
+
+def handle_exceptions(e):
+    if isinstance(e, (
+            NoSuchElementException, ElementClickInterceptedException, ElementNotInteractableException,
+            TimeoutException)):
+        print(f"Ошибка: {e.__class__.__name__}! Проблема с обработкой сайта!")
+    elif isinstance(e, FileNotFoundError):
+        print(f"Ошибка {e.__class__.__name__}: Файл не найден!")
+    elif isinstance(e, PermissionError):
+        print(f"Ошибка {e.__class__.__name__}: Отказано в доступе!")
+    elif isinstance(e, InvalidFileException):
+        print(f"Ошибка {e.__class__.__name__}: Недопустимый файл!")
+    else:
+        print(f"Произошла неизвестная ошибка: {e.__class__.__name__}!")
 
 
 # Функция для поиска и скачивания PDF-отчетов по ключевым словам
@@ -39,27 +55,32 @@ def download_pdf_reports(driver, institute_name, report_url, keywords):
         print(e)
 
 
-# Чтение данных из файла links.xlsx
-current_script_path = os.path.abspath(__file__)
-current_script_directory = os.path.dirname(current_script_path)
-df = pd.read_excel(os.path.join(current_script_directory, 'links.xlsx'))
-data_folder = os.path.join(os.path.dirname(__file__), '..', 'PDF_reports')
-if not os.path.exists(data_folder):
-    os.makedirs(data_folder)
+browser = None
+try:
+    # Чтение данных из файла links.xlsx
+    current_script_path = os.path.abspath(__file__)
+    current_script_directory = os.path.dirname(current_script_path)
+    df = pd.read_excel(os.path.join(current_script_directory, 'links.xlsx'))
+    data_folder = os.path.join(os.path.dirname(__file__), '..', 'PDF_reports')
+    if not os.path.exists(data_folder):
+        os.makedirs(data_folder)
 
-# Запрос ключевых слов у пользователя
-keywords_str = input("Введите ключевые слова через запятую: ")
-keywords = [kw.strip() for kw in keywords_str.split(',')]
+    # Запрос ключевых слов у пользователя
+    keywords_str = input("Введите ключевые слова через запятую: ")
+    keywords = [kw.strip() for kw in keywords_str.split(',')]
 
-# Инициализация драйвера браузера
-browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    # Инициализация драйвера браузера
+    browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
-# Перебор каждой строки в DataFrame
-for index, row in df.iterrows():
-    institute_name = str(row[1])
-    report_url = str(row[3])
-    # Вызов функции для поиска и скачивания PDF-отчетов
-    download_pdf_reports(browser, institute_name, report_url, keywords)
+    # Перебор каждой строки в DataFrame
+    for index, row in df.iterrows():
+        institute_name = str(row[1])
+        report_url = str(row[3])
+        # Вызов функции для поиска и скачивания PDF-отчетов
+        download_pdf_reports(browser, institute_name, report_url, keywords)
 
-# Закрытие драйвера браузера
-browser.quit()
+except Exception as e:
+    handle_exceptions(e)
+finally:
+    if browser is not None:  # Проверяем, определена ли переменная browser перед её закрытием
+        browser.close()
