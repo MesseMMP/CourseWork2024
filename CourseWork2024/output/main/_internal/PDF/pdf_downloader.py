@@ -61,6 +61,8 @@ try:
     current_script_path = os.path.abspath(__file__)
     current_script_directory = os.path.dirname(current_script_path)
     df = pd.read_excel(os.path.join(current_script_directory, 'links.xlsx'))
+    # Очистка DataFrame от пустых строк
+    df = df.dropna()
     data_folder = os.path.join(os.path.dirname(__file__), '..', 'PDF_reports')
     if not os.path.exists(data_folder):
         os.makedirs(data_folder)
